@@ -17,9 +17,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Change to project directory
-        run: cd DotNetAppSqlDb/DotNetAppSqlDb
 
       - name: Setup MSBuild path
         uses: microsoft/setup-msbuild@v1.0.2
@@ -28,13 +25,10 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.5
 
       - name: Restore NuGet packages
-        run: nuget restore
-
-      - name: Change to project directory
-        run: cd DotNetAppSqlDb/DotNetAppSqlDb
+        run: nuget restore DotNetAppSqlDb/DotNetAppSqlDb.sln
 
       - name: Publish to folder
-        run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
+        run: msbuild DotNetAppSqlDb/DotNetAppSqlDb.sln /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
